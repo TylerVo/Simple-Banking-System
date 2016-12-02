@@ -1,4 +1,5 @@
 package com.company;
+import java.io.IOException;
 import java.util.Scanner;
 
 // Simple Banking System V 1.0 - Created by Madelin, Tyler, Kevin, and Ed.
@@ -7,7 +8,7 @@ public class Menu
 {
     static Account acc;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         //Create Objects
         acc = new Account();
@@ -47,8 +48,7 @@ public class Menu
         }
     }
 
-    public static void show_menu()
-    {
+    public static void show_menu() throws IOException {
         System.out.println("1\t Create Account");
         System.out.println("2\t Deposit");
         System.out.println("3\t Withdraw");
@@ -65,6 +65,7 @@ public class Menu
         switch (choice2) {
             case 1:
                 System.out.println("Create Account");
+                acc.create_account();
                 //Call method create_account from Account class
                 //Ed implement this method
                 break;
