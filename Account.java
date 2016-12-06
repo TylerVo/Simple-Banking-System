@@ -1,105 +1,206 @@
 package com.company;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-// Simple Banking System V 1.0
-
-public class Menu
+public class Account
 {
-    static Account acc;
 
-    public static void main(String[] args) throws IOException {
+    static float balance =1;
 
-        //Create Objects
-        acc = new Account();
+    public static void create_account () throws IOException, InputMismatchException
+    {
 
-        Scanner scan = new Scanner(System.in);
+        Scanner input = new Scanner(System.in);
 
-
-        System.out.println("Welcome to the Simple Banking System.\n Please choose from the following options: ");
-
-        Boolean fl = true;
-
-        while (fl) {
+        int choice = 0;
 
 
-            show_menu();
+        while (choice != 1 && choice != 2 && choice != 3)
+        {
 
-            System.out.println("Would you like to continue? Yes/No: ");
+            System.out.println("Would you like to create or look up an account? ");
+            System.out.println("1. Look Up an Account");
+            System.out.println("2. Create Account");
+            System.out.println("3. Return to the Main Menu");
 
-            String choice = scan.next();
-            if (choice.equalsIgnoreCase("yes") ||
-                    (choice.equalsIgnoreCase("y")))
-            {
-                fl = true;
+            try{
+                choice = input.nextInt();
             }
-            else if (choice.equalsIgnoreCase("no")||
-                    (choice.equalsIgnoreCase("n")))
-            {
-                fl = false;
-            }
-            else
-            {
-                System.out.println("Invalid option. ");
 
+            catch (InputMismatchException inp)
+            {
+                System.out.println("Error: Must enter a Number");
+                Menu.show_menu();
             }
+
+        }
+
+        if (choice == 3)
+        {
+            Menu.show_menu();
+        }
+
+
+        String filename = "accounts.dat";
+
+//Create account
+     if (choice == 2)
+    {
+//prompts user for account details and writes them accordingly
+        try (DataOutputStream output = new DataOutputStream(new FileOutputStream(filename, true));){
+
+            System.out.println("Enter the user's first name: ");
+            String fName = input.next();
+            fName = fName.toLowerCase();
+            fName += " ";
+
+
+            System.out.println("Enter the user's last name: ");
+            String lName = input.next();
+            lName = lName.toLowerCase();
+            lName += " ";
+
+
+            System.out.println("Enter the user's account number: ");
+            String aNumber = input.next();
+            aNumber += " ";
+
+
+            System.out.println("Enter the user's account type: ");
+            String aType = input.next();
+            aType = aType.toUpperCase();
+            aType += " ";
+
+
+            System.out.println("Enter the user's initial deposit: ");
+            String iDeposit = input.next();
+            iDeposit += " ";
+
+            String write = fName + lName + aNumber + aType + iDeposit;
+            output.writeUTF(write);
+            output.close();
+            Menu.show_menu();
+
         }
     }
 
-    public static void show_menu() throws IOException {
-        System.out.println("1\t Create Account");
-        System.out.println("2\t Deposit");
-        System.out.println("3\t Withdraw");
-        System.out.println("4\t Show Balance");
-        System.out.println("5\t Edit Account");
-        System.out.println("6\t Exit");
+//Look Up account details
+    else if (choice == 1)
+    {
+        Lookup.lookup_account();
+        Menu.show_menu();
+    }
+     
+     input.close();
+     
+    }
+    
 
+    public static void deposit (double n)
+    {
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Please enter your choice:");
+    }
 
-        int choice2 = in.nextInt();
+    public static void withdraw(double n) throws WithdrawLimitException
+    {
 
-        switch (choice2) {
-            case 1:
-                System.out.println("Create Account");
-                acc.create_account();
-
-                break;
-            case 2:
-                System.out.println("Deposit");
-
-                break;
-            case 3:
-                try
-                {
-                    acc.withdraw(2);
-
-                }
-                catch (WithdrawLimitException e)
-                {
-                    System.out.println("Sorry. You have attempted to withdraw " + e.showbalance() + "$ more than you have.");
-                }
-                break;
-            case 4:
-                //Call method show_balance from Account class
-                acc.show_balance();
-                break;
-            case 5:
-                System.out.println("Edit Account");
-                acc.edit_account();
-                break;
-            case 6:
-                acc.exit();;
-                System.out.println("Exit");
-                //Call method exit from Account class
-                break;
-            default:
-                System.out.println("Invalid choice.");
-
-                //End of banking main menu
-
-
+        if (n <= balance)
+        {
+            balance -= n;
         }
+        else
+        {
+            double short_by = n-balance;
+            throw new WithdrawLimitException(short_by);
+        }
+    }
+
+    public static void show_balance ()
+    {
+        System.out.println("Balance: " + balance);
+    }
+
+    public static void edit_account ()  throws IOException, InputMismatchException
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter the old first name:" );
+        String firstName=input.next();
+        System.out.println("Enter the old last name:" );
+        String lastName=input.next();
+        System.out.println("Enter the old bank account number");
+        String accountNumber=input.next();
+        String dataOld = firstName+" "+lastName+" "+accountNumber;
+        System.out.println("Enter the new first name:" );
+        firstName=input.next();
+        System.out.println("Enter the new last name:" );
+        lastName=input.next();
+        System.out.println("Enter the new bank account number");
+        accountNumber=input.next();
+        String dataNew = firstName+" "+lastName+" "+accountNumber;
+
+        try { // To keep system from crashing.
+
+        	ArrayList<String> data = new ArrayList<String>();
+        	// Opening the stream for reading.
+            DataInputStream stream = new DataInputStream(new FileInputStream("accounts.dat")); 
+            try{ // if it is end of file, then throw exception.
+            	while(true){ // Runs until break.
+                	String temp = stream.readUTF(); // read utf.
+                	if(temp == null) // if data read is null then 
+                		break;
+                	data.add(temp); // else add the string to array list.
+                }
+            }catch(Exception e){
+            }
+            stream.close();
+
+            boolean found = false; // to check is data found or not.
+            // Iterate through all data to check if it contains data or not.
+            for(int i = 0; i < data.size(); i++){ 
+            	if(data.get(i).contains(dataOld)){
+            		found = true;
+            		data.set(i, data.get(i).replace(dataOld, dataNew)); // replace the data.
+            	}
+            }
+            
+            if(!found){ // if it is not found then.
+            	System.out.println("Cant't found the user with data: "+dataOld); // print the data.
+            }else{ // re-write the file.
+            	
+            	// open a file.
+                File file = new File("accounts.dat"); 
+                if(file.exists())
+                  	file.delete();
+                
+                // create a new file and open the output stream.
+                DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
+                for(int i = 0; i < data.size(); i++){
+                	String text = data.get(i);
+                	outputStream.writeUTF(text);
+                }
+                outputStream.close();
+                
+                System.out.println("Successfully Updated the Data.");
+            	
+            }
+
+        } catch (Exception e) {
+            System.out.println("Problem reading file.");
+        }
+
+    }
+
+    public static void exit ()
+    {
+ 
+        System.out.println("Thank you for using Simple Banking System.");
+        System.exit(0);
     }
 }
