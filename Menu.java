@@ -2,7 +2,7 @@ package com.company;
 import java.io.IOException;
 import java.util.Scanner;
 
-// Simple Banking System V 1.0 - Created by Madelin, Tyler, Kevin, and Ed.
+// Simple Banking System V 1.0
 
 public class Menu
 {
@@ -15,8 +15,6 @@ public class Menu
 
         Scanner scan = new Scanner(System.in);
 
-        /*All options in the menu for our app can be called by different methods.
-          All the methods will be in one class called Account*/
 
         System.out.println("Welcome to the Simple Banking System.\n Please choose from the following options: ");
 
@@ -29,7 +27,7 @@ public class Menu
 
             System.out.println("Would you like to continue? Yes/No: ");
 
-            String choice = scan.nextLine();
+            String choice = scan.next();
             if (choice.equalsIgnoreCase("yes") ||
                     (choice.equalsIgnoreCase("y")))
             {
@@ -66,21 +64,17 @@ public class Menu
             case 1:
                 System.out.println("Create Account");
                 acc.create_account();
-                //Call method create_account from Account class
-                //Ed implement this method
+
                 break;
             case 2:
                 System.out.println("Deposit");
-                //Call method deposit from Account class
-                //Kevin implement this method
+
                 break;
             case 3:
                 try
                 {
                     acc.withdraw(2);
-                    /*Call method withdraw from Account class
-                    If user withdraws more than balance then throw
-                    the custom exception */
+
                 }
                 catch (WithdrawLimitException e)
                 {
@@ -93,9 +87,10 @@ public class Menu
                 break;
             case 5:
                 System.out.println("Edit Account");
-                //Call method edit_account from Account class
+                acc.edit_account();
                 break;
             case 6:
+                acc.exit();;
                 System.out.println("Exit");
                 //Call method exit from Account class
                 break;
@@ -104,8 +99,6 @@ public class Menu
 
                 //End of banking main menu
 
-        /*Optional: Use JavaFx class to make graphical user interface instead of text interface. At end
-         of our development we may add Jframe and implement actionlistner interface. */
 
         }
     }
