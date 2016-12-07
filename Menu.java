@@ -51,23 +51,25 @@ public class Menu
         System.out.println("6\t Exit");
 
         Scanner scan2 = new Scanner(System.in);
-        double amount =0;
         System.out.println("Please enter your choice:");
 
         int choice2 = scan2.nextInt();
+        double amount =0;
 
         switch (choice2) {
             case 1:
                 acc.create_account();
                 break;
             case 2:
-                System.out.println("Enter the amount to deposit: ");
-                amount = scan2.nextDouble();
-                acc.deposit(amount);
+                Lookup.lookup_account();
+                System.out.println("Enter the amount to deposit: " );
+                amount=scan2.nextDouble();
+                Account.deposit(amount);
                 break;
             case 3:
                 try
                 {
+                    Lookup.lookup_account();
                     System.out.println("Enter the amount to withdraw: ");
                     amount = scan2.nextDouble();
                     acc.withdraw(amount);
@@ -78,7 +80,6 @@ public class Menu
                 }
                 break;
             case 4:
-                Lookup.lookup_account();
                 acc.show_balance();
                 break;
             case 5:
