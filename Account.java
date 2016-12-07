@@ -78,19 +78,16 @@ public class Account
                 System.out.println("Enter the user's account number: ");
                 String aNumber = input.next();
                 aNumber += " ";
-                if (!(aNumber.length() == (9))) {
+                if (!(aNumber.length() == (10))) {
                     System.out.println("Bank account must be 9 digits long.");
                     create_account();
                 }
-
-            System.out.println("Please Enter a Number Between 1 and 100");
 
                 System.out.println("Enter the user's account type: ");
                 String aType = input.next();
                 aType = aType.toUpperCase();
                 aType += " ";
-
-
+                
                 System.out.println("Enter the user's initial deposit: ");
                 String iDeposit = input.next();
                 iDeposit += " ";
