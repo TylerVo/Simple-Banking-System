@@ -16,13 +16,11 @@ public class Menu
 
         Scanner scan = new Scanner(System.in);
 
-
         System.out.println("Welcome to the Simple Banking System.\n Please choose from the following options: ");
 
         Boolean fl = true;
 
         while (fl) {
-
 
             show_menu();
 
@@ -42,9 +40,6 @@ public class Menu
             else
             {
                 System.out.println("Invalid option. ");
-
-
-
             }
         }
     }
@@ -67,17 +62,14 @@ public class Menu
             case 1:
                 System.out.println("Create Account");
                 acc.create_account();
-
                 break;
             case 2:
                 System.out.println("Deposit");
-
                 break;
             case 3:
                 try
                 {
                     acc.withdraw(2);
-
                 }
                 catch (WithdrawLimitException e)
                 {
@@ -99,10 +91,7 @@ public class Menu
                 break;
             default:
                 System.out.println("Invalid choice.");
-
                 //End of banking main menu
-
-
         }
     }
 }
