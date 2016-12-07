@@ -18,6 +18,8 @@ public class Account
     {
 
         Scanner input = new Scanner(System.in);
+        ValidateInput vp = new ValidateInput();
+
 
         int choice = 0;
 
@@ -38,6 +40,7 @@ public class Account
                 System.out.println("Error: Must enter a Number");
                 Menu.show_menu();
             }
+
         }
 
         if (choice == 3)
@@ -50,16 +53,16 @@ public class Account
         //Create account
         if (choice == 2)
         {
+            Boolean nameCheck = false;
             //prompts user for account details and writes them accordingly
             try (DataOutputStream output = new DataOutputStream(new FileOutputStream(filename, true));){
-
 
                 System.out.println("Enter the user's first name: ");
                 String fName = input.next();
                 fName = fName.toLowerCase();
                 fName += " ";
                 if ((fName.length() > (20))) { //First Name Length check
-                    System.out.println("First name cannot have more than 20 characters");
+                    System.out.println("First name cannot have more than 20 characters.");
                     create_account();
                 }
 
@@ -68,7 +71,7 @@ public class Account
                 lName = lName.toLowerCase();
                 lName += " ";
                 if ((lName.length() > (20))) { //Last Name Length check
-                    System.out.println("Last name cannot have more than 20 characters");
+                    System.out.println("Last name cannot have more than 20 characters.");
                     create_account();
                 }
 
@@ -112,6 +115,9 @@ public class Account
 
     public static void deposit (double n)  throws IOException, InputMismatchException, NoSuchElementException
     {
+
+        //A lot of the code below was taken from edit_account method.
+        //the amount of code below could be reduced a lot
 
         String dataOld = fName+" "+lName+" "+aNumber+" "+aType+" "+aBalance;
         Double newAmount = parseDouble(aBalance)+n;
@@ -169,6 +175,9 @@ public class Account
     }
 
     public static void withdraw(double n) throws WithdrawLimitException, IOException {
+
+        //A lot of the code below was taken from edit_account method.
+        //the amount of code below can be reduced by call a method
 
         String dataOld = fName+" "+lName+" "+aNumber+" "+aType+" "+aBalance;
         Double newAmount = parseDouble(aBalance)-n;
@@ -234,7 +243,6 @@ public class Account
             double short_by = n-parseDouble(aBalance);
             throw new WithdrawLimitException(short_by);
         }
-
     }
 
     public static void show_balance () throws IOException, InputMismatchException, NoSuchElementException {
@@ -245,6 +253,14 @@ public class Account
 
     public static void edit_account ()  throws IOException, InputMismatchException, NoSuchElementException
     {
+        /*Needs a lot of input validation checks.
+         Length Checks:
+            -Bank number must be equal to 9
+            -First and last name
+         DataType Checks:
+            -Bank account number must not be letters.
+         */
+
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the old first name:" );
         String firstName=input.next();
@@ -304,6 +320,7 @@ public class Account
                 outputStream.close();
 
                 System.out.println("Successfully Updated the Data.");
+
             }
 
         } catch (NoSuchElementException e) {
