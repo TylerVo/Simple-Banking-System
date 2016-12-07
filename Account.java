@@ -149,7 +149,7 @@ public class Account
             }
 
             if(!found){ // if it is not found then.
-                System.out.println("Cant't found the user with data: "+dataOld); // print the data.
+                System.out.println("Could not find user with data: "+dataOld); // print the data.
             }else{ // re-write the file.
 
                 // open a file.
@@ -209,7 +209,7 @@ public class Account
             }
 
             if(!found){ // if it is not found then.
-                System.out.println("Cant't found the user with data: "+dataOld); // print the data.
+                System.out.println("Could not find user with data: "+dataOld); // print the data.
             }else{ // re-write the file.
 
                 // open a file.
@@ -303,7 +303,7 @@ public class Account
             }
 
             if(!found){ // if it is not found then.
-                System.out.println("Cant't found the user with data: "+dataOld); // print the data.
+                System.out.println("Could not find user with data: "+dataOld); // print the data.
             }else{ // re-write the file.
 
                 // open a file.
@@ -320,7 +320,6 @@ public class Account
                 outputStream.close();
 
                 System.out.println("Successfully Updated the Data.");
-
             }
 
         } catch (NoSuchElementException e) {
