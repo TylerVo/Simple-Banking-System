@@ -10,18 +10,16 @@ import java.io.FileOutputStream;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
 import static com.company.Lookup.*;
+import static java.lang.Double.parseDouble;
 
 public class Account
 {
-
-
     public static void create_account () throws IOException, InputMismatchException
     {
 
         Scanner input = new Scanner(System.in);
 
         int choice = 0;
-
 
         while (choice != 1 && choice != 2 && choice != 3)
         {
@@ -40,7 +38,6 @@ public class Account
                 System.out.println("Error: Must enter a Number");
                 Menu.show_menu();
             }
-
         }
 
         if (choice == 3)
@@ -113,44 +110,137 @@ public class Account
 
     }
 
-    public static void deposit (double n)
+    public static void deposit (double n)  throws IOException, InputMismatchException, NoSuchElementException
     {
-        try
-        {
-            Lookup.lookup_account();
 
-                aBalance = aBalance + n;
-                String dataNew = String.valueOf(aBalance);
-                edit_account();
+        String dataOld = fName+" "+lName+" "+aNumber+" "+aType+" "+aBalance;
+        Double newAmount = parseDouble(aBalance)+n;
+        String dataNew = fName+" "+lName+" "+aNumber+" "+aType+" "+newAmount;
 
-                //Display deposit results
-                System.out.println("Account Holder: " + fName + " " + lName);
-                display_balance();
+        try { // To keep system from crashing.
 
+            ArrayList<String> data = new ArrayList<String>();
+            // Opening the stream for reading.
+            DataInputStream stream = new DataInputStream(new FileInputStream("accounts.dat"));
+            try{ // if it is end of file, then throw exception.
+                while(true){ // Runs until break.
+                    String temp = stream.readUTF(); // read utf.
+                    if(temp == null) // if data read is null then
+                        break;
+                    data.add(temp); // else add the string to array list.
+                }
+            }catch(Exception e){
+            }
+            stream.close();
 
-            } catch (IOException e) {
+            boolean found = false; // to check is data found or not.
+            // Iterate through all data to check if it contains data or not.
+            for(int i = 0; i < data.size(); i++){
+                if(data.get(i).contains(dataOld)){
+                    found = true;
+                    data.set(i, data.get(i).replace(dataOld, dataNew)); // replace the data.
+                }
+            }
+
+            if(!found){ // if it is not found then.
+                System.out.println("Cant't found the user with data: "+dataOld); // print the data.
+            }else{ // re-write the file.
+
+                // open a file.
+                File file = new File("accounts.dat");
+                if(file.exists())
+                    file.delete();
+
+                // create a new file and open the output stream.
+                DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
+                for(int i = 0; i < data.size(); i++){
+                    String text = data.get(i);
+                    outputStream.writeUTF(text);
+                }
+                outputStream.close();
+
+                System.out.println("Successfully Updated the Data.");
+            }
+
+        } catch (NoSuchElementException e) {
+            System.out.println("Problem reading file.");
         }
+        Menu.show_menu();
     }
 
     public static void withdraw(double n) throws WithdrawLimitException, IOException {
 
-        Lookup.lookup_account();
+        String dataOld = fName+" "+lName+" "+aNumber+" "+aType+" "+aBalance;
+        Double newAmount = parseDouble(aBalance)-n;
+        String dataNew = fName+" "+lName+" "+aNumber+" "+aType+" "+newAmount;
 
-       /* if (n <= aBalance)
+        try { // To keep system from crashing.
+
+            ArrayList<String> data = new ArrayList<String>();
+            // Opening the stream for reading.
+            DataInputStream stream = new DataInputStream(new FileInputStream("accounts.dat"));
+            try{ // if it is end of file, then throw exception.
+                while(true){ // Runs until break.
+                    String temp = stream.readUTF(); // read utf.
+                    if(temp == null) // if data read is null then
+                        break;
+                    data.add(temp); // else add the string to array list.
+                }
+            }catch(Exception e){
+            }
+            stream.close();
+
+            boolean found = false; // to check is data found or not.
+            // Iterate through all data to check if it contains data or not.
+            for(int i = 0; i < data.size(); i++){
+                if(data.get(i).contains(dataOld)){
+                    found = true;
+                    data.set(i, data.get(i).replace(dataOld, dataNew)); // replace the data.
+                }
+            }
+
+            if(!found){ // if it is not found then.
+                System.out.println("Cant't found the user with data: "+dataOld); // print the data.
+            }else{ // re-write the file.
+
+                // open a file.
+                File file = new File("accounts.dat");
+                if(file.exists())
+                    file.delete();
+
+                // create a new file and open the output stream.
+                DataOutputStream outputStream = new DataOutputStream(new FileOutputStream(file));
+                for(int i = 0; i < data.size(); i++){
+                    String text = data.get(i);
+                    outputStream.writeUTF(text);
+                }
+                outputStream.close();
+
+                System.out.println("Successfully Updated the Data.");
+            }
+
+        } catch (NoSuchElementException e) {
+            System.out.println("Problem reading file.");
+        }
+        Menu.show_menu();
+
+        if (n <= parseDouble(aBalance))
         {
-            aBalance -= n;
+            Double validate_balance = parseDouble(aBalance);
+            validate_balance -= n;
         }
         else
         {
-            double short_by = n-aBalance;
+            double short_by = n-parseDouble(aBalance);
             throw new WithdrawLimitException(short_by);
         }
 
-        */
     }
 
-    public static void show_balance () throws IOException {
+    public static void show_balance () throws IOException, InputMismatchException, NoSuchElementException {
+        Lookup.lookup_account();
         Lookup.display_balance();
+        Menu.show_menu();
     }
 
     public static void edit_account ()  throws IOException, InputMismatchException, NoSuchElementException
@@ -214,12 +304,12 @@ public class Account
                 outputStream.close();
 
                 System.out.println("Successfully Updated the Data.");
-
             }
 
         } catch (NoSuchElementException e) {
             System.out.println("Problem reading file.");
         }
+        Menu.show_menu();
     }
 
     public static void exit ()
