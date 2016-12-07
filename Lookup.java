@@ -1,22 +1,21 @@
 package com.company;
-import java.io.DataInputStream;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.io.IOException;
 import java.io.EOFException;
 import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.DataInputStream;
 import java.util.InputMismatchException;
-import java.util.Scanner;
 
 public class Lookup extends Account {
-
 
     public static String fName;
     public static String lName;
     public static String aNumber;
     public static String aType;
-    public static String iDeposit;
+    public static String aBalance;
 
-
-    public static void lookup_account() throws IOException, InputMismatchException
+    public static void lookup_account() throws IOException, InputMismatchException, NoSuchElementException
     {
         Scanner input = new Scanner(System.in);
 
@@ -62,9 +61,7 @@ public class Lookup extends Account {
                     int aTypeIndex = aDetails.indexOf(" ", ++aNumberIndex);
                     aType = aDetails.substring(aNumberIndex, aTypeIndex);
 
-                    iDeposit = aDetails.substring(aTypeIndex + 1);
-
-
+                    aBalance = aDetails.substring(aTypeIndex + 1);
                 }
             }
         }
@@ -74,8 +71,12 @@ public class Lookup extends Account {
             Menu.show_menu();
         }
 
+        catch (NoSuchElementException ex)
+        {
+            System.out.println("Error.");
+            Menu.show_menu();
+        }
     }
-
 
     public static void display_account(){
         //displays account details
@@ -85,18 +86,11 @@ public class Lookup extends Account {
         System.out.println("Last Name: " + lName);
         System.out.println("Account Number: " + aNumber);
         System.out.println("Account Type: " + aType);
-        System.out.println("Initial Deposit: " + "$" + iDeposit);
+        System.out.println("Account Balance: " + "$" + aBalance);
         System.out.println("");
     }
-
+    
     public static void display_balance(){
-
-
-        System.out.println("The Balance for that user is: " + iDeposit);
-
+        System.out.println("Balance amount: $" + aBalance);
     }
-
-
-
-
 }
