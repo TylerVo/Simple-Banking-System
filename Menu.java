@@ -2,7 +2,7 @@ package com.company;
 import java.io.IOException;
 import java.util.Scanner;
 
-// Simple Banking System V 1.0
+// Simple Banking System V 1.4
 
 public class Menu
 {
@@ -12,7 +12,6 @@ public class Menu
 
         //Create Objects
         acc = new Account();
-
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Welcome to the Simple Banking System.\n Please choose from the following options: ");
@@ -51,24 +50,27 @@ public class Menu
         System.out.println("5\t Edit Account");
         System.out.println("6\t Exit");
 
-
-        Scanner in = new Scanner(System.in);
+        Scanner scan2 = new Scanner(System.in);
+        double amount =0;
         System.out.println("Please enter your choice:");
 
-        int choice2 = in.nextInt();
+        int choice2 = scan2.nextInt();
 
         switch (choice2) {
             case 1:
-                System.out.println("Create Account");
                 acc.create_account();
                 break;
             case 2:
-                System.out.println("Deposit");
+                System.out.println("Enter the amount to deposit: ");
+                amount = scan2.nextDouble();
+                acc.deposit(amount);
                 break;
             case 3:
                 try
                 {
-                    acc.withdraw(2);
+                    System.out.println("Enter the amount to withdraw: ");
+                    amount = scan2.nextDouble();
+                    acc.withdraw(amount);
                 }
                 catch (WithdrawLimitException e)
                 {
@@ -80,12 +82,10 @@ public class Menu
                 acc.show_balance();
                 break;
             case 5:
-                System.out.println("Edit Account");
                 acc.edit_account();
                 break;
             case 6:
                 acc.exit();;
-                System.out.println("Exit");
                 break;
             default:
                 System.out.println("Invalid choice.");
