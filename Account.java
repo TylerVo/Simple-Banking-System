@@ -1,19 +1,19 @@
 package com.company;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.util.Scanner;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.util.InputMismatchException;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
+import static com.company.Lookup.*;
 
 public class Account
 {
 
-    static float balance =1;
 
     public static void create_account () throws IOException, InputMismatchException
     {
@@ -48,7 +48,6 @@ public class Account
             Menu.show_menu();
         }
 
-
         String filename = "accounts.dat";
 
         //Create account
@@ -57,11 +56,12 @@ public class Account
             //prompts user for account details and writes them accordingly
             try (DataOutputStream output = new DataOutputStream(new FileOutputStream(filename, true));){
 
+
                 System.out.println("Enter the user's first name: ");
                 String fName = input.next();
                 fName = fName.toLowerCase();
                 fName += " ";
-                if ((fName.length() > (20))) {
+                if ((fName.length() > (20))) { //First Name Length check
                     System.out.println("First name cannot have more than 20 characters");
                     create_account();
                 }
@@ -70,7 +70,7 @@ public class Account
                 String lName = input.next();
                 lName = lName.toLowerCase();
                 lName += " ";
-                if ((lName.length() > (20))) {
+                if ((lName.length() > (20))) { //Last Name Length check
                     System.out.println("Last name cannot have more than 20 characters");
                     create_account();
                 }
@@ -78,7 +78,7 @@ public class Account
                 System.out.println("Enter the user's account number: ");
                 String aNumber = input.next();
                 aNumber += " ";
-                if (!(aNumber.length() == (10))) {
+                if (!(aNumber.length() == (10))) { //Account number Length check
                     System.out.println("Bank account must be 9 digits long.");
                     create_account();
                 }
@@ -113,24 +113,40 @@ public class Account
 
     }
 
-
     public static void deposit (double n)
     {
+        try
+        {
+            Lookup.lookup_account();
 
+                aBalance = aBalance + n;
+                String dataNew = String.valueOf(aBalance);
+                edit_account();
+
+                //Display deposit results
+                System.out.println("Account Holder: " + fName + " " + lName);
+                display_balance();
+
+
+            } catch (IOException e) {
+        }
     }
 
-    public static void withdraw(double n) throws WithdrawLimitException
-    {
+    public static void withdraw(double n) throws WithdrawLimitException, IOException {
 
-        if (n <= balance)
+        Lookup.lookup_account();
+
+       /* if (n <= aBalance)
         {
-            balance -= n;
+            aBalance -= n;
         }
         else
         {
-            double short_by = n-balance;
+            double short_by = n-aBalance;
             throw new WithdrawLimitException(short_by);
         }
+
+        */
     }
 
     public static void show_balance () throws IOException {
