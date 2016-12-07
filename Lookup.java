@@ -1,11 +1,11 @@
 package com.company;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.io.IOException;
 import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.DataInputStream;
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 
 public class Lookup extends Account {
 
@@ -31,7 +31,7 @@ public class Lookup extends Account {
         boolean found = false;
 
         //creates a string to compare to file content
-        String refDetails = refFName;
+        String refDetails = refFName+" "+refLName;
         String aDetails = "";
 
         //account details are read from file until the specified user is found, or until the end of the file is reached.
@@ -48,7 +48,7 @@ public class Lookup extends Account {
 
                 if (aDetails.indexOf(refDetails) != -1) {
                     found = true;
-//breaks matching line of text read from file into substrings for output formatting purposes
+            //breaks matching line of text read from file into substrings for output formatting purposes
                     int fNameIndex = aDetails.indexOf(" ");
                     fName = aDetails.substring(0, fNameIndex);
 
@@ -89,8 +89,9 @@ public class Lookup extends Account {
         System.out.println("Account Balance: " + "$" + aBalance);
         System.out.println("");
     }
-    
+
     public static void display_balance(){
         System.out.println("Balance amount: $" + aBalance);
+        System.out.println("");
     }
 }
