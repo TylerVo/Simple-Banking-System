@@ -1,6 +1,5 @@
 package com.company;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 // Simple Banking System V 1.0
@@ -87,11 +86,9 @@ public class Menu
             case 6:
                 acc.exit();;
                 System.out.println("Exit");
-                //Call method exit from Account class
                 break;
             default:
                 System.out.println("Invalid choice.");
-                //End of banking main menu
         }
     }
 }
