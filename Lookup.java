@@ -48,7 +48,7 @@ public class Lookup extends Account {
 
                 if (aDetails.indexOf(refDetails) != -1) {
                     found = true;
-            //breaks matching line of text read from file into substrings for output formatting purposes
+//breaks matching line of text read from file into substrings for output formatting purposes
                     int fNameIndex = aDetails.indexOf(" ");
                     fName = aDetails.substring(0, fNameIndex);
 
