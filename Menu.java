@@ -1,5 +1,6 @@
 package com.company;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 // Simple Banking System V 1.0
@@ -42,6 +43,8 @@ public class Menu
             {
                 System.out.println("Invalid option. ");
 
+
+
             }
         }
     }
@@ -82,7 +85,7 @@ public class Menu
                 }
                 break;
             case 4:
-                //Call method show_balance from Account class
+                Lookup.lookup_account();
                 acc.show_balance();
                 break;
             case 5:
