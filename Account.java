@@ -83,30 +83,10 @@ public class Account
                     create_account();
                 }
 
-                Boolean fl = true;
-
-                while (fl) {
-
-                    System.out.println("Enter the user's account type. Checking(C)/Savings(S):");
-
-                    String aType = input.next();
-                    aType = aType.toUpperCase();
-                    aType += " ";
-                    if (aType.equalsIgnoreCase("Checking ") ||
-                            (aType.equalsIgnoreCase("c ")))
-                    {
-                        fl = false;
-                    }
-                    else if (aType.equalsIgnoreCase("Savings ")||
-                            (aType.equalsIgnoreCase("s ")))
-                    {
-                        fl = false;
-                    }
-                    else
-                    {
-                        System.out.println("Invalid option. ");
-                    }
-                }
+                System.out.println("Enter the user's account type. Checking(C)/Savings(S):");
+                String aType = input.next();
+                aType = aType.toUpperCase();
+                aType += " ";
 
                 System.out.println("Enter the user's initial deposit: ");
                 String iDeposit = input.next();
