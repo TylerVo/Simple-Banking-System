@@ -87,7 +87,7 @@ public class Account
                 String aType = input.next();
                 aType = aType.toUpperCase();
                 aType += " ";
-                
+
                 System.out.println("Enter the user's initial deposit: ");
                 String iDeposit = input.next();
                 iDeposit += " ";
@@ -95,6 +95,7 @@ public class Account
                 String write = fName + lName + aNumber + aType + iDeposit;
                 output.writeUTF(write);
                 output.close();
+                System.out.println("Account created successfully.");
                 Menu.show_menu();
 
             }
@@ -104,6 +105,7 @@ public class Account
         else if (choice == 1)
         {
             Lookup.lookup_account();
+            Lookup.display_account();
             Menu.show_menu();
         }
 
@@ -131,9 +133,8 @@ public class Account
         }
     }
 
-    public static void show_balance ()
-    {
-        System.out.println("Balance: " + balance);
+    public static void show_balance () throws IOException {
+        Lookup.display_balance();
     }
 
     public static void edit_account ()  throws IOException, InputMismatchException, NoSuchElementException
