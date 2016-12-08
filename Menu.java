@@ -48,17 +48,19 @@ public abstract class Menu extends Application implements WindowListener, Action
         jf.add(jp);
 
         //Add menu buttons to frame
+         jp.add(new JLabel(new ImageIcon("title.png")));
          jp.add(jb1);
          jp.add(jb2);
          jp.add(jb3);
          jp.add(jb4);
          jp.add(jb5);
          jp.add(jb6);
-
+         jp.add(new JLabel(new ImageIcon("bankimage.png")));
         //Set Frame properties
          jf.setSize(350,200);
          jf.setLocationRelativeTo(null);
          jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         jf.setResizable(false);
          jf.setVisible(true);
 
         //Button Events begin
