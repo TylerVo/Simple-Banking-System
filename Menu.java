@@ -1,14 +1,99 @@
 package com.company;
-import java.io.IOException;
+import javax.swing.*;
+import java.awt.event.*;
 import java.util.Scanner;
+import java.io.IOException;
+import javafx.application.Application;
 
-// Simple Banking System V 1.4
+// Simple Banking System V 1.5
 
-public class Menu
+public abstract class Menu extends Application implements WindowListener, ActionListener
 {
+    //menu buttons
+    private static JButton jb1 = new JButton();
+    private static JButton jb2 = new JButton();
+    private static JButton jb3 = new JButton();
+    private static JButton jb4 = new JButton();
+    private static JButton jb5 = new JButton();
+    private static JButton jb6 = new JButton();
+
+    /*Initialize the GUI.
+    Note: Only exit button works on the GUI.
+    I was planning to make a GUI for the program, but due to lack of
+    time I was not able to complete it. We will still include
+    the look of the GUI in the presentation to make our system look
+    better. */
+
+     public static void initGui()
+     {
+
+         jb1.setText("Create Account");
+         jb2.setText("Deposit");
+         jb3.setText("Withdraw");
+         jb4.setText("Show Balance");
+         jb5.setText("Edit Account");
+         jb6.setText("Exit");
+
+         //set bounds of menu buttons
+         jb1.setBounds(10,80,80,25);
+         jb2.setBounds(30,80,80,25);
+         jb3.setBounds(50,80,80,25);
+         jb4.setBounds(70,80,80,25);
+         jb5.setBounds(90,100,80,25);
+         jb6.setBounds(110,120,80,25);
+
+        //create Jframe instance
+        JFrame jf = new JFrame("Simple Banking System");
+        JPanel jp = new JPanel();
+        jf.add(jp);
+
+        //Add menu buttons to frame
+         jp.add(jb1);
+         jp.add(jb2);
+         jp.add(jb3);
+         jp.add(jb4);
+         jp.add(jb5);
+         jp.add(jb6);
+
+        //Set Frame properties
+         jf.setSize(350,200);
+         jf.setLocationRelativeTo(null);
+         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         jf.setVisible(true);
+
+        //Button Events begin
+
+       jb1.addActionListener(new ActionListener()
+        {
+        public void actionPerformed(ActionEvent e)
+           {
+
+           }
+        });
+
+         jb2.addActionListener(new ActionListener()
+         {
+             public void actionPerformed(ActionEvent e)
+             {
+
+             }
+         });
+
+         jb6.addActionListener(new ActionListener()
+         {
+             public void actionPerformed(ActionEvent e)
+             {
+                 acc.exit();
+             }
+         });
+     }
+        //Button Events end
+
     static Account acc;
 
     public static void main(String[] args) throws IOException {
+
+        initGui();
 
         //Create Objects
         acc = new Account();
@@ -43,6 +128,8 @@ public class Menu
     }
 
     public static void show_menu() throws IOException {
+
+
         System.out.println("1\t Create Account");
         System.out.println("2\t Deposit");
         System.out.println("3\t Withdraw");
